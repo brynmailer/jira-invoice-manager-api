@@ -5,6 +5,7 @@
 * Limit web requests to 1 per second
 * Write a test script
 * Write comments describing each major part of the code
+* Expand the README to explain the structure of the project
 * Come up with a better way of handling invoice number generation
 * Come up with a way of handling updating an invoice that doesn't change the invoiceId, but still deletes the invoice items that are no longer bound to the invoice
 * Write a delete invoice mutation? (haven't decided if this functionality should be available)

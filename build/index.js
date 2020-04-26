@@ -79,7 +79,13 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             credentials: true
         }));
         app.use(session({
-            store: new MySQLStore(DB_CONFIG),
+            store: new MySQLStore({
+                user: DB_CONFIG.username,
+                password: DB_CONFIG.password,
+                database: DB_CONFIG.database,
+                host: DB_CONFIG.host,
+                port: DB_CONFIG.port
+            }),
             secret: "lj2b12jnmv3242234ioj2",
             resave: false,
             saveUninitialized: false,
