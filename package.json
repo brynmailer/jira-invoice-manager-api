@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
     "build": "tsc",
-    "start": "node build/index.js"
+    "start": "node build/index.js",
+    "db:setup": "ts-node ./src/testUtils/setup.ts",
+    "test": "npm run db:setup && jest"
   },
   "keywords": [],
   "author": "Bryn Mailer",
@@ -18,8 +20,11 @@
     "@types/express-session": "^1.17.0",
     "@types/graphql": "^14.5.0",
     "@types/ioredis": "^4.14.9",
+    "@types/jest": "^25.2.1",
     "@types/node": "^13.11.1",
+    "jest": "^25.4.0",
     "nodemon": "^2.0.3",
+    "ts-jest": "^25.4.0",
     "ts-node": "^8.8.2",
     "typescript": "^3.8.3"
   },

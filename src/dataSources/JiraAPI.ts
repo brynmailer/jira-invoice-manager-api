@@ -16,14 +16,14 @@ export class JiraAPI extends RESTDataSource {
   }
 
   async willSendRequest(req: RequestOptions) {
-    let accessToken = this.redis.get(this.context.user.id);
+    let accessToken = await this.redis.get(this.context.user.id);
     if (accessToken) {
       req.headers.set("Authorization", "Bearer " + accessToken);
     } else {
       console.log("refreshing access token...")
       await this.context.dataSources.jiraAuth.refreshAccessToken(this.context.user.refreshToken);
 
-      accessToken = this.redis.get(this.context.user.id);
+      accessToken = await this.redis.get(this.context.user.id);
 
       req.headers.set("Authorization", "Bearer " + accessToken);
     }

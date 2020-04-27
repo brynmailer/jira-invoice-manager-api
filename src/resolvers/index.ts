@@ -1,3 +1,3 @@
-export * from "./UserResolver";
-export * from "./JiraResolver";
-export * from "./InvoiceResolver";
+export * from "./UserResolver.resolver";
+export * from "./JiraResolver.resolver";
+export * from "./InvoiceResolver.resolver";

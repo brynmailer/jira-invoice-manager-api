@@ -5,7 +5,7 @@ import { useContainer, createConnection, ConnectionOptions, getRepository } from
 import { buildSchema } from "type-graphql";
 import Redis from "ioredis";
 import Express from "express";
-import MySQLSession, { Options } from "express-mysql-session";
+import MySQLSession from "express-mysql-session";
 import cors from "cors";
 // Couldn't get default import to work
 // due to the way the express-session
@@ -13,16 +13,10 @@ import cors from "cors";
 const session = require("express-session");
 
 import { User, Invoice, InvoiceItem, Log } from "./entities";
-import { UserResolver, JiraResolver, InvoiceResolver } from "./resolvers";
 import { Context } from "./types";
-import { authChecker } from "./auth";
 import { JiraAuth, JiraAPI } from "./dataSources";
-import { RateLimitDaily, RateLimitPerSecond } from "./middleware";
+import { createSchema } from "./utils";
 
-// Allow TypeORM to use IoC container for DI.
-// This facilitates the ability to share the database connection
-// with other parts of the application
-useContainer(Container);
 
 // Setting some global variables in the IoC container
 Container.set("SALT_ROUNDS", 10);
@@ -42,6 +36,11 @@ const DB_CONFIG = {
 
 const main = async () => {
   try {
+    // Allow TypeORM to use IoC container for DI.
+    // This facilitates the ability to share the database connection
+    // with other parts of the application
+    useContainer(Container);
+
     // Initialise the connection to the database
     await createConnection({
       ...DB_CONFIG,
@@ -50,12 +49,7 @@ const main = async () => {
       synchronize: true
     } as ConnectionOptions);
 
-    const schema = await buildSchema({
-      resolvers: [ UserResolver, JiraResolver, InvoiceResolver ],
-      authChecker,
-      container: Container,
-      globalMiddlewares: [ RateLimitDaily, RateLimitPerSecond ]
-    });
+    const schema = await createSchema();
 
     const server = new ApolloServer({
       schema,

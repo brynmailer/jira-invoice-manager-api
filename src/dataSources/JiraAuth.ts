@@ -27,7 +27,7 @@ export class JiraAuth extends RESTDataSource {
       }
     );
 
-    this.redis.set(this.context.user.id, access.access_token, "EX", access.expires_in);
+    await this.redis.set(this.context.user.id, access.access_token, "EX", access.expires_in);
 
     return access;
   }
@@ -50,7 +50,7 @@ export class JiraAuth extends RESTDataSource {
       }
     );
 
-    this.redis.set(this.context.user.id, access.access_token, "EX", access.expires_in);
+    await this.redis.set(this.context.user.id, access.access_token, "EX", access.expires_in);
 
     return access;
   }
