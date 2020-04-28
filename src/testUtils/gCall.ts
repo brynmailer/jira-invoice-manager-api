@@ -8,15 +8,20 @@ interface Options {
   variableValues?: Maybe<{
     [key: string]: any;
   }>;
+  contextValue?: Maybe<{
+    [key: string]: any;
+  }>;
 }
 
 export const gCall = async ({
   source,
-  variableValues
+  variableValues,
+  contextValue
 }: Options) => {
   return graphql({
     schema: await createSchema(),
     source,
-    variableValues
+    variableValues,
+    contextValue
   });
 }

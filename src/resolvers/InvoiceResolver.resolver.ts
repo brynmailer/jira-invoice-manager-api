@@ -12,10 +12,11 @@ import { LogAction } from "../middleware";
 @Resolver()
 export class InvoiceResolver {
 
-  constructor(
-    @InjectRepository(Invoice) private readonly invoiceRepository: Repository<Invoice>,
-    @InjectRepository(InvoiceItem) private readonly invoiceItemRepository: Repository<InvoiceItem>
-  ) {}
+  @InjectRepository(Invoice)
+  private readonly invoiceRepository: Repository<Invoice>;
+
+  @InjectRepository(InvoiceItem)
+  private readonly invoiceItemRepository: Repository<InvoiceItem>;
 
   // NOTE: must find a way to mimic MySQLs AutoIncrement
   // but on a per user basis for the invoice.number field.

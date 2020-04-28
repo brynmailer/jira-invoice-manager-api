@@ -11,12 +11,18 @@ import { LogAction } from "../middleware";
 
 @Resolver()
 export class JiraResolver {
-  constructor(
-    @Inject("SALT_ROUNDS") private readonly saltRounds: string,
-    @Inject("CLIENT_ID") private readonly clientId: string,
-    @Inject("CALLBACK_URL") private readonly callbackUrl: string,
-    @InjectRepository(User) private readonly userRepository: Repository<User>
-  ) {}
+
+  @Inject("SALT_ROUNDS")
+  private readonly saltRounds: string;
+
+  @Inject("CLIENT_ID")
+  private readonly clientId: string;
+  
+  @Inject("CALLBACK_URL")
+  private readonly callbackUrl: string;
+
+  @InjectRepository(User)
+  private readonly userRepository: Repository<User>;
 
   @Authorized()
   @UseMiddleware(LogAction)

@@ -2,7 +2,6 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
 import { Container } from "typedi";
 import { useContainer, createConnection, ConnectionOptions, getRepository } from "typeorm";
-import { buildSchema } from "type-graphql";
 import Redis from "ioredis";
 import Express from "express";
 import MySQLSession from "express-mysql-session";
@@ -16,7 +15,6 @@ import { User, Invoice, InvoiceItem, Log } from "./entities";
 import { Context } from "./types";
 import { JiraAuth, JiraAPI } from "./dataSources";
 import { createSchema } from "./utils";
-
 
 // Setting some global variables in the IoC container
 Container.set("SALT_ROUNDS", 10);
@@ -37,8 +35,6 @@ const DB_CONFIG = {
 const main = async () => {
   try {
     // Allow TypeORM to use IoC container for DI.
-    // This facilitates the ability to share the database connection
-    // with other parts of the application
     useContainer(Container);
 
     // Initialise the connection to the database

@@ -1,6 +1,6 @@
 import { Connection } from "typeorm";
 
-import { testConn } from "../testUtils/testConn";
+import { testConn, gCall } from "../testUtils";
 
 let conn: Connection;
 
@@ -12,8 +12,38 @@ afterAll(async () => {
   conn.close();
 });
 
-describe('Register', () => {
-  it("create user", () => {
+const registerMutation = `
+mutation Register(
+  $user: UserInput!
+) {
+  register(
+    user: $user
+  ) {
+    id
+    firstName
+    lastName
+    email
+  }
+}
+`
 
+describe('Register', () => {
+  it("create user", async () => {
+    console.log(await gCall({
+      source: registerMutation,
+      variableValues: {
+        user: {
+          firstName: "test",
+          lastName: "test",
+          email: "test@test.com",
+          password: "testpassword"
+        }
+      },
+      contextValue: {
+        dataSources: {
+
+        }
+      }
+    }));
   });
 });

@@ -12,10 +12,11 @@ import { LogAction } from "../middleware";
 @Resolver()
 export class UserResolver {
 
-  constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
-    @Inject("SALT_ROUNDS") private readonly saltRounds: number
-  ) {}
+  @InjectRepository(User)
+  private readonly userRepository: Repository<User>;
+
+  @Inject("SALT_ROUNDS")
+  private readonly saltRounds: number;
 
   @Authorized()
   @UseMiddleware(LogAction)
