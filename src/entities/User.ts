@@ -46,7 +46,7 @@ export class User {
   })
   email: string;
   
-  @Field(type => [Invoice])
+  @Field(type => [Invoice], { nullable: true })
   @OneToMany(type => Invoice, invoice => invoice.user)
   invoices: Invoice[];
 

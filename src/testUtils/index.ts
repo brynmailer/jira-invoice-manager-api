@@ -1,2 +1,2 @@
-export * from "./testConn";
+export * from "./setup";
 export * from "./gCall";
