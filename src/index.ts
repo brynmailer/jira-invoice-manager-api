@@ -42,6 +42,8 @@ const DB_CONFIG = {
 const main = async () => {
   try {
     // Allow TypeORM to use IoC container for DI.
+    // This means that a singleton of the DB connection will be accessible
+    // throughout the application.
     useContainer(Container);
 
     // Initialise the connection to the database
@@ -65,6 +67,8 @@ const main = async () => {
       context: async ({ req }) => {
         const userRepository = getRepository(User);
 
+        // If there is a session set, attach the appropriate user from
+        // the DB to the context.
         if (req.session.userId) {
           return {
             req,
@@ -75,6 +79,7 @@ const main = async () => {
           };
         }
 
+        // Otherwise only return the express Request object.
         return { req };
       },
       playground: true,

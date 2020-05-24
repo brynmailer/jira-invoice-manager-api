@@ -3,8 +3,6 @@
 ## High Priority TODOs
 
 * Limit web requests to 1 per second
-* Write comments describing each major part of the code
-* Expand the README to explain the structure of the project
 
 ## Continuous Improvement TODOs
 
@@ -108,3 +106,7 @@ mutation {
 ```
 
 This mutation should return a message indicating that the exchange was successful. You have now successfully allowed the application to access your Jira site. This process can be run any number of times to add more Jira sites to the application.
+
+## User Input Validation
+
+This web service makes use of the package `class-validator` in order to properly check the data structures provided in mutations sent by the user. This package provides a number of useful Typescript decorators that allow you to attach contstraints and value requirements to class properties. `type-graphql` is able to parse the errors thrown by `class-validator` and return an appropriate response to the user on failed query/mutation. Usage of `class-vaidator` is demonstrated in the input and argument data structures defined within `src/resolvers/types`.
