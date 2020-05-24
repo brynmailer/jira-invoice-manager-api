@@ -37,10 +37,6 @@ const entities_1 = require("../entities");
 const types_1 = require("./types");
 const middleware_1 = require("../middleware");
 let UserResolver = class UserResolver {
-    constructor(userRepository, saltRounds) {
-        this.userRepository = userRepository;
-        this.saltRounds = saltRounds;
-    }
     currentUser(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             return ctx.user;
@@ -67,9 +63,8 @@ let UserResolver = class UserResolver {
     }
     logout(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((res, rej) => ctx.req.session.destroy(err => {
+            return new Promise((res, rej) => ctx.req.session.destroy((err) => {
                 if (err) {
-                    throw new Error(err);
                     rej({ message: "Logout unsuccessful." });
                 }
                 res({ message: "Successfully logged out." });
@@ -78,9 +73,17 @@ let UserResolver = class UserResolver {
     }
 };
 __decorate([
+    typeorm_typedi_extensions_1.InjectRepository(entities_1.User),
+    __metadata("design:type", typeorm_1.Repository)
+], UserResolver.prototype, "userRepository", void 0);
+__decorate([
+    typedi_1.Inject("SALT_ROUNDS"),
+    __metadata("design:type", Number)
+], UserResolver.prototype, "saltRounds", void 0);
+__decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Query(returns => entities_1.User),
+    type_graphql_1.Query((returns) => entities_1.User),
     __param(0, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -88,7 +91,7 @@ __decorate([
 ], UserResolver.prototype, "currentUser", null);
 __decorate([
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Mutation(returns => entities_1.User),
+    type_graphql_1.Mutation((returns) => entities_1.User),
     __param(0, type_graphql_1.Arg("user")),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
@@ -97,7 +100,7 @@ __decorate([
 ], UserResolver.prototype, "register", null);
 __decorate([
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Mutation(returns => entities_1.User),
+    type_graphql_1.Mutation((returns) => entities_1.User),
     __param(0, type_graphql_1.Args()),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
@@ -107,16 +110,13 @@ __decorate([
 __decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Mutation(returns => entities_1.Message),
+    type_graphql_1.Mutation((returns) => entities_1.Message),
     __param(0, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "logout", null);
 UserResolver = __decorate([
-    type_graphql_1.Resolver(),
-    __param(0, typeorm_typedi_extensions_1.InjectRepository(entities_1.User)),
-    __param(1, typedi_1.Inject("SALT_ROUNDS")),
-    __metadata("design:paramtypes", [typeorm_1.Repository, Number])
+    type_graphql_1.Resolver()
 ], UserResolver);
 exports.UserResolver = UserResolver;

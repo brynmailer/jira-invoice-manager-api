@@ -15,7 +15,7 @@ const PaginationArgs_1 = require("./PaginationArgs");
 let GetProjectsArgs = class GetProjectsArgs extends PaginationArgs_1.PaginationArgs {
 };
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.ID),
+    type_graphql_1.Field((type) => type_graphql_1.ID),
     class_validator_1.IsString(),
     __metadata("design:type", String)
 ], GetProjectsArgs.prototype, "cloudId", void 0);

@@ -3,7 +3,6 @@ import { IsString } from "class-validator";
 
 @ArgsType()
 export class ExchangeAuthCodeArgs {
-
   @Field()
   @IsString()
   code: string;
@@ -11,5 +10,4 @@ export class ExchangeAuthCodeArgs {
   @Field()
   @IsString()
   state: string;
-
 }

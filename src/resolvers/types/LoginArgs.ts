@@ -3,7 +3,6 @@ import { MaxLength, Length, IsString, IsEmail } from "class-validator";
 
 @ArgsType()
 export class LoginArgs {
-
   @Field()
   @IsString()
   @IsEmail()
@@ -12,5 +11,4 @@ export class LoginArgs {
   @Field()
   @IsString()
   password: string;
-
 }

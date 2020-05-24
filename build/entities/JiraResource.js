@@ -13,7 +13,7 @@ const type_graphql_1 = require("type-graphql");
 let JiraResource = class JiraResource {
 };
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.ID),
+    type_graphql_1.Field((type) => type_graphql_1.ID),
     __metadata("design:type", String)
 ], JiraResource.prototype, "id", void 0);
 __decorate([

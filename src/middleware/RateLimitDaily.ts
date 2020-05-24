@@ -4,7 +4,10 @@ import { Redis } from "ioredis";
 
 import { Context } from "../types";
 
-export const RateLimitDaily: MiddlewareFn<Context> = async ({ context, info }, next: NextFn) => {
+export const RateLimitDaily: MiddlewareFn<Context> = async (
+  { context, info },
+  next: NextFn
+) => {
   const redis: Redis = Container.get("REDIS_CLIENT");
 
   const key = `rate-limit-daily:${context.req.ip}`;

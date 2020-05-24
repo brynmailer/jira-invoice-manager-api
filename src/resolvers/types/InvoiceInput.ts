@@ -1,11 +1,16 @@
 import { InputType, Field, Float } from "type-graphql";
-import { MaxLength, IsString, IsNumber, IsPositive, IsDateString } from "class-validator";
+import {
+  MaxLength,
+  IsString,
+  IsNumber,
+  IsPositive,
+  IsDateString,
+} from "class-validator";
 
 import { Invoice } from "../../entities";
 
 @InputType()
 export class InvoiceInput implements Partial<Invoice> {
-
   @Field()
   @IsDateString()
   issued: string;
@@ -25,12 +30,12 @@ export class InvoiceInput implements Partial<Invoice> {
   @IsString()
   billTo: string;
 
-  @Field(type => Float)
+  @Field((type) => Float)
   @IsNumber()
   @IsPositive()
   ratePerHour: number;
 
-  @Field(type => Float)
+  @Field((type) => Float)
   @IsNumber()
   @IsPositive()
   total: number;
@@ -39,7 +44,6 @@ export class InvoiceInput implements Partial<Invoice> {
   @IsDateString()
   due: string;
 
-  @Field(type => [String])
+  @Field((type) => [String])
   itemUrls: string[];
-
 }

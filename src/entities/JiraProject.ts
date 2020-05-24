@@ -4,8 +4,7 @@ import { JiraAvatar } from "./";
 
 @ObjectType()
 export class JiraProject {
-
-  @Field(type => ID)
+  @Field((type) => ID)
   id: number;
 
   @Field()
@@ -17,7 +16,6 @@ export class JiraProject {
   @Field()
   name: string;
 
-  @Field(type => [JiraAvatar])
+  @Field((type) => [JiraAvatar])
   avatarUrls: JiraAvatar[];
-
 }

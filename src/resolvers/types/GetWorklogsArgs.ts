@@ -5,7 +5,6 @@ import { PaginationArgs } from "./PaginationArgs";
 
 @ArgsType()
 export class GetWorklogsArgs extends PaginationArgs {
-
   @Field()
   @IsString()
   cloudId: string;
@@ -13,5 +12,4 @@ export class GetWorklogsArgs extends PaginationArgs {
   @Field()
   @IsString()
   issueKey: string;
-
 }

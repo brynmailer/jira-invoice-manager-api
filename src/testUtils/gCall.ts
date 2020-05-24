@@ -18,13 +18,13 @@ let schema: GraphQLSchema;
 export const gCall = async ({
   source,
   variableValues,
-  contextValue
+  contextValue,
 }: Options) => {
   if (!schema) schema = await createSchema();
   return graphql({
     schema,
     source,
     variableValues,
-    contextValue
+    contextValue,
   });
-}
+};

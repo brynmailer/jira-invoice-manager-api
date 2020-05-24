@@ -5,7 +5,6 @@ import { User } from "../../entities";
 
 @InputType()
 export class UserInput implements Partial<User> {
-
   @Field()
   @MaxLength(255)
   @IsString()
@@ -26,5 +25,4 @@ export class UserInput implements Partial<User> {
   @IsString()
   @IsEmail()
   email: string;
-
 }

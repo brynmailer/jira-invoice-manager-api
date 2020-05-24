@@ -6,26 +6,24 @@ import { Invoice } from "./Invoice";
 @ObjectType()
 @Entity()
 export class InvoiceItem {
-  
-  @Field(type => ID)
+  @Field((type) => ID)
   @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
   @Field()
   @Column({
     type: "varchar",
-    length: 40
+    length: 40,
   })
   jiraId: string;
 
   @Field()
   @Column({
     type: "varchar",
-    length: 40
+    length: 40,
   })
   issueId: string;
 
-  @ManyToOne(type => Invoice, invoice => invoice.items)
+  @ManyToOne((type) => Invoice, (invoice) => invoice.items)
   invoice: Invoice;
-
 }

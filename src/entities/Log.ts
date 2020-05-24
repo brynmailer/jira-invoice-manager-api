@@ -4,22 +4,21 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 @ObjectType()
 @Entity()
 export class Log {
-  
-  @Field(type => ID)
+  @Field((type) => ID)
   @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
   @Field()
   @Column({
     type: "varchar",
-    length: 255
+    length: 255,
   })
   ip: string;
 
   @Field()
   @Column({
     type: "varchar",
-    length: 255
+    length: 255,
   })
   userAgent: string;
 
@@ -30,8 +29,7 @@ export class Log {
   @Field()
   @Column({
     type: "varchar",
-    length: 255
+    length: 255,
   })
   action: string;
-
 }

@@ -28,15 +28,13 @@ const entities_1 = require("../entities");
 const types_1 = require("./types");
 const middleware_1 = require("../middleware");
 let InvoiceResolver = class InvoiceResolver {
-    constructor(invoiceRepository, invoiceItemRepository) {
-        this.invoiceRepository = invoiceRepository;
-        this.invoiceItemRepository = invoiceItemRepository;
-    }
     createInvoice(invoiceInput, ctx) {
         return __awaiter(this, void 0, void 0, function* () {
-            const invoice = this.invoiceRepository.create(Object.assign(Object.assign({}, invoiceInput), { user: ctx.user, number: ctx.user.invoices.length > 0 ? ctx.user.invoices[ctx.user.invoices.length - 1].number + 1 : 1, items: invoiceInput.itemUrls.map(itemUrl => ({
+            const invoice = this.invoiceRepository.create(Object.assign(Object.assign({}, invoiceInput), { user: ctx.user, number: ctx.user.invoices.length > 0
+                    ? ctx.user.invoices[ctx.user.invoices.length - 1].number + 1
+                    : 1, items: invoiceInput.itemUrls.map((itemUrl) => ({
                     jiraId: itemUrl.split("/")[itemUrl.split("/").length - 1],
-                    issueId: itemUrl.split("/")[itemUrl.split("/").length - 3]
+                    issueId: itemUrl.split("/")[itemUrl.split("/").length - 3],
                 })) }));
             return yield this.invoiceRepository.save(invoice);
         });
@@ -45,18 +43,26 @@ let InvoiceResolver = class InvoiceResolver {
         return __awaiter(this, void 0, void 0, function* () {
             const { number } = ctx.user.invoices[ctx.user.invoices.length - 1];
             yield this.invoiceRepository.delete(invoiceId);
-            const invoice = this.invoiceRepository.create(Object.assign(Object.assign({}, invoiceInput), { user: ctx.user, number, items: invoiceInput.itemUrls.map(itemUrl => ({
+            const invoice = this.invoiceRepository.create(Object.assign(Object.assign({}, invoiceInput), { user: ctx.user, number, items: invoiceInput.itemUrls.map((itemUrl) => ({
                     jiraId: itemUrl.split("/")[itemUrl.split("/").length - 1],
-                    issueId: itemUrl.split("/")[itemUrl.split("/").length - 3]
+                    issueId: itemUrl.split("/")[itemUrl.split("/").length - 3],
                 })) }));
             return yield this.invoiceRepository.save(invoice);
         });
     }
 };
 __decorate([
+    typeorm_typedi_extensions_1.InjectRepository(entities_1.Invoice),
+    __metadata("design:type", typeorm_1.Repository)
+], InvoiceResolver.prototype, "invoiceRepository", void 0);
+__decorate([
+    typeorm_typedi_extensions_1.InjectRepository(entities_1.InvoiceItem),
+    __metadata("design:type", typeorm_1.Repository)
+], InvoiceResolver.prototype, "invoiceItemRepository", void 0);
+__decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Mutation(returns => entities_1.Invoice),
+    type_graphql_1.Mutation((returns) => entities_1.Invoice),
     __param(0, type_graphql_1.Arg("invoice")),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
@@ -66,7 +72,7 @@ __decorate([
 __decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Mutation(returns => entities_1.Invoice),
+    type_graphql_1.Mutation((returns) => entities_1.Invoice),
     __param(0, type_graphql_1.Arg("id")),
     __param(1, type_graphql_1.Arg("invoice")),
     __param(2, type_graphql_1.Ctx()),
@@ -75,10 +81,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], InvoiceResolver.prototype, "updateInvoice", null);
 InvoiceResolver = __decorate([
-    type_graphql_1.Resolver(),
-    __param(0, typeorm_typedi_extensions_1.InjectRepository(entities_1.Invoice)),
-    __param(1, typeorm_typedi_extensions_1.InjectRepository(entities_1.InvoiceItem)),
-    __metadata("design:paramtypes", [typeorm_1.Repository,
-        typeorm_1.Repository])
+    type_graphql_1.Resolver()
 ], InvoiceResolver);
 exports.InvoiceResolver = InvoiceResolver;

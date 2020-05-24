@@ -14,7 +14,7 @@ const _1 = require("./");
 let JiraProject = class JiraProject {
 };
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.ID),
+    type_graphql_1.Field((type) => type_graphql_1.ID),
     __metadata("design:type", Number)
 ], JiraProject.prototype, "id", void 0);
 __decorate([
@@ -30,7 +30,7 @@ __decorate([
     __metadata("design:type", String)
 ], JiraProject.prototype, "name", void 0);
 __decorate([
-    type_graphql_1.Field(type => [_1.JiraAvatar]),
+    type_graphql_1.Field((type) => [_1.JiraAvatar]),
     __metadata("design:type", Array)
 ], JiraProject.prototype, "avatarUrls", void 0);
 JiraProject = __decorate([

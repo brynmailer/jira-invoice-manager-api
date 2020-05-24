@@ -2,8 +2,7 @@ import { ObjectType, Field, ID } from "type-graphql";
 
 @ObjectType()
 export class JiraResource {
-
-  @Field(type => ID)
+  @Field((type) => ID)
   id: string;
 
   @Field()
@@ -13,5 +12,4 @@ export class JiraResource {
 
   @Field()
   avatarUrl: string;
-
 }

@@ -39,18 +39,18 @@ describe("User actions", () => {
         req: {
           ip: "127.0.0.1",
           headers: {
-            "user-agent": "test user-agent field"
-          }
-        }
+            "user-agent": "test user-agent field",
+          },
+        },
       },
       variableValues: {
         user: {
           firstName: "test",
           lastName: "test",
           email: "test@test.com",
-          password: "testpassword"
-        }
-      }
+          password: "testpassword",
+        },
+      },
     });
 
     expect(result).toMatchObject({
@@ -59,9 +59,9 @@ describe("User actions", () => {
           firstName: "test",
           lastName: "test",
           email: "test@test.com",
-          invoices: null
-        }
-      }
+          invoices: null,
+        },
+      },
     });
   });
 
@@ -90,16 +90,16 @@ describe("User actions", () => {
         req: {
           ip: "127.0.0.1",
           headers: {
-            "user-agent": "test user-agent field"
+            "user-agent": "test user-agent field",
           },
           session: {},
-          sessionID: "test"
-        }
+          sessionID: "test",
+        },
       },
       variableValues: {
         email: "test@test.com",
-        password: "testpassword"
-      }
+        password: "testpassword",
+      },
     });
 
     expect(result).toMatchObject({
@@ -108,9 +108,9 @@ describe("User actions", () => {
           firstName: "test",
           lastName: "test",
           email: "test@test.com",
-          invoices: null
-        }
-      }
+          invoices: null,
+        },
+      },
     });
   });
 
@@ -136,15 +136,15 @@ describe("User actions", () => {
         req: {
           ip: "127.0.0.1",
           headers: {
-            "user-agent": "test user-agent field"
+            "user-agent": "test user-agent field",
           },
           session: {
-            userId: "test"
+            userId: "test",
           },
-          sessionID: "test"
+          sessionID: "test",
         },
-        user: await userRepository.findOne({ firstName: "test" })
-      }
+        user: await userRepository.findOne({ firstName: "test" }),
+      },
     });
 
     expect(result).toMatchObject({
@@ -153,9 +153,9 @@ describe("User actions", () => {
           firstName: "test",
           lastName: "test",
           email: "test@test.com",
-          invoices: null
-        }
-      }
+          invoices: null,
+        },
+      },
     });
   });
 
@@ -172,25 +172,25 @@ describe("User actions", () => {
         req: {
           ip: "127.0.0.1",
           headers: {
-            "user-agent": "test user-agent field"
+            "user-agent": "test user-agent field",
           },
           session: {
             userId: "test",
             destroy: (func) => {
               func();
-            }
+            },
           },
-          sessionID: "test"
-        }
-      }
+          sessionID: "test",
+        },
+      },
     });
 
     expect(result).toMatchObject({
       data: {
         logout: {
-          message: "Successfully logged out."
-        }
-      }
+          message: "Successfully logged out.",
+        },
+      },
     });
   });
 });

@@ -9,16 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const typeorm_1 = require("typeorm");
-const entities_1 = require("../entities");
-exports.LogAction = ({ context, info }, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const logRespository = typeorm_1.getRepository(entities_1.Log);
-    const log = logRespository.create({
-        ip: context.req.ip,
-        userAgent: context.req.headers["user-agent"],
-        timestamp: new Date().toString(),
-        action: info.fieldName,
+const typedi_1 = require("typedi");
+const type_graphql_1 = require("type-graphql");
+const auth_1 = require("../auth");
+const middleware_1 = require("../middleware");
+const resolvers_1 = require("../resolvers");
+exports.createSchema = () => __awaiter(void 0, void 0, void 0, function* () {
+    return yield type_graphql_1.buildSchema({
+        resolvers: [resolvers_1.InvoiceResolver, resolvers_1.JiraResolver, resolvers_1.UserResolver],
+        authChecker: auth_1.authChecker,
+        container: typedi_1.Container,
+        globalMiddlewares: [middleware_1.RateLimitDaily, middleware_1.RateLimitPerSecond],
     });
-    yield logRespository.save(log);
-    return next();
 });

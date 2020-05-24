@@ -16,12 +16,12 @@ const InvoiceItem_1 = require("./InvoiceItem");
 let Invoice = class Invoice {
 };
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.ID),
+    type_graphql_1.Field((type) => type_graphql_1.ID),
     typeorm_1.PrimaryGeneratedColumn("uuid"),
     __metadata("design:type", String)
 ], Invoice.prototype, "id", void 0);
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.Int),
+    type_graphql_1.Field((type) => type_graphql_1.Int),
     typeorm_1.Column("int"),
     __metadata("design:type", Number)
 ], Invoice.prototype, "number", void 0);
@@ -34,7 +34,7 @@ __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({
         type: "varchar",
-        length: 255
+        length: 255,
     }),
     __metadata("design:type", String)
 ], Invoice.prototype, "status", void 0);
@@ -42,7 +42,7 @@ __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({
         type: "varchar",
-        length: 255
+        length: 255,
     }),
     __metadata("design:type", String)
 ], Invoice.prototype, "businessName", void 0);
@@ -50,17 +50,17 @@ __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({
         type: "varchar",
-        length: 255
+        length: 255,
     }),
     __metadata("design:type", String)
 ], Invoice.prototype, "billTo", void 0);
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.Float),
+    type_graphql_1.Field((type) => type_graphql_1.Float),
     typeorm_1.Column("float"),
     __metadata("design:type", Number)
 ], Invoice.prototype, "ratePerHour", void 0);
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.Float),
+    type_graphql_1.Field((type) => type_graphql_1.Float),
     typeorm_1.Column("float"),
     __metadata("design:type", Number)
 ], Invoice.prototype, "total", void 0);
@@ -70,12 +70,15 @@ __decorate([
     __metadata("design:type", String)
 ], Invoice.prototype, "due", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => User_1.User, user => user.invoices, { nullable: false }),
+    typeorm_1.ManyToOne((type) => User_1.User, (user) => user.invoices, { nullable: false }),
     __metadata("design:type", User_1.User)
 ], Invoice.prototype, "user", void 0);
 __decorate([
-    type_graphql_1.Field(type => [InvoiceItem_1.InvoiceItem]),
-    typeorm_1.OneToMany(type => InvoiceItem_1.InvoiceItem, item => item.invoice, { cascade: true, onDelete: "CASCADE" }),
+    type_graphql_1.Field((type) => [InvoiceItem_1.InvoiceItem]),
+    typeorm_1.OneToMany((type) => InvoiceItem_1.InvoiceItem, (item) => item.invoice, {
+        cascade: true,
+        onDelete: "CASCADE",
+    }),
     __metadata("design:type", Array)
 ], Invoice.prototype, "items", void 0);
 Invoice = __decorate([

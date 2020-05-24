@@ -2,8 +2,7 @@ import { ObjectType, Field, ID } from "type-graphql";
 
 @ObjectType()
 export class JiraIssue {
-
-  @Field(type => ID)
+  @Field((type) => ID)
   id: number;
 
   @Field()
@@ -14,5 +13,4 @@ export class JiraIssue {
 
   @Field()
   summary: string;
-
 }

@@ -29,12 +29,6 @@ const entities_1 = require("../entities");
 const types_1 = require("./types");
 const middleware_1 = require("../middleware");
 let JiraResolver = class JiraResolver {
-    constructor(saltRounds, clientId, callbackUrl, userRepository) {
-        this.saltRounds = saltRounds;
-        this.clientId = clientId;
-        this.callbackUrl = callbackUrl;
-        this.userRepository = userRepository;
-    }
     getAuthUrl(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             return `
@@ -46,8 +40,7 @@ let JiraResolver = class JiraResolver {
       state=${ctx.req.session.userState}&
       response_type=code&
       prompt=consent
-    `
-                .replace(/(\r\n|\n|\r| )/gm, "");
+    `.replace(/(\r\n|\n|\r| )/gm, "");
         });
     }
     exchangeAuthCode({ code, state }, ctx) {
@@ -55,7 +48,9 @@ let JiraResolver = class JiraResolver {
             const access = yield ctx.dataSources.jiraAuth.exchangeAuthCode(code, state, ctx.req.session.userState);
             ctx.user.refreshToken = access.refresh_token;
             this.userRepository.save(ctx.user);
-            return { message: "Successfully exchanged authorization code for access token." };
+            return {
+                message: "Successfully exchanged authorization code for access token.",
+            };
         });
     }
     getAccessibleResources(ctx) {
@@ -81,9 +76,25 @@ let JiraResolver = class JiraResolver {
     }
 };
 __decorate([
+    typedi_1.Inject("SALT_ROUNDS"),
+    __metadata("design:type", String)
+], JiraResolver.prototype, "saltRounds", void 0);
+__decorate([
+    typedi_1.Inject("CLIENT_ID"),
+    __metadata("design:type", String)
+], JiraResolver.prototype, "clientId", void 0);
+__decorate([
+    typedi_1.Inject("CALLBACK_URL"),
+    __metadata("design:type", String)
+], JiraResolver.prototype, "callbackUrl", void 0);
+__decorate([
+    typeorm_typedi_extensions_1.InjectRepository(entities_1.User),
+    __metadata("design:type", typeorm_1.Repository)
+], JiraResolver.prototype, "userRepository", void 0);
+__decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Query(returns => String),
+    type_graphql_1.Query((returns) => String),
     __param(0, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -92,7 +103,7 @@ __decorate([
 __decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Mutation(returns => entities_1.Message),
+    type_graphql_1.Mutation((returns) => entities_1.Message),
     __param(0, type_graphql_1.Args()),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
@@ -102,7 +113,7 @@ __decorate([
 __decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Query(returns => [entities_1.JiraResource]),
+    type_graphql_1.Query((returns) => [entities_1.JiraResource]),
     __param(0, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -111,7 +122,7 @@ __decorate([
 __decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Query(returns => [entities_1.JiraProject]),
+    type_graphql_1.Query((returns) => [entities_1.JiraProject]),
     __param(0, type_graphql_1.Args()),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
@@ -121,7 +132,7 @@ __decorate([
 __decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Query(returns => [entities_1.JiraIssue]),
+    type_graphql_1.Query((returns) => [entities_1.JiraIssue]),
     __param(0, type_graphql_1.Args()),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
@@ -131,7 +142,7 @@ __decorate([
 __decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
-    type_graphql_1.Query(returns => [entities_1.JiraWorklog]),
+    type_graphql_1.Query((returns) => [entities_1.JiraWorklog]),
     __param(0, type_graphql_1.Args()),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
@@ -139,11 +150,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], JiraResolver.prototype, "getWorklogs", null);
 JiraResolver = __decorate([
-    type_graphql_1.Resolver(),
-    __param(0, typedi_1.Inject("SALT_ROUNDS")),
-    __param(1, typedi_1.Inject("CLIENT_ID")),
-    __param(2, typedi_1.Inject("CALLBACK_URL")),
-    __param(3, typeorm_typedi_extensions_1.InjectRepository(entities_1.User)),
-    __metadata("design:paramtypes", [String, String, String, typeorm_1.Repository])
+    type_graphql_1.Resolver()
 ], JiraResolver);
 exports.JiraResolver = JiraResolver;

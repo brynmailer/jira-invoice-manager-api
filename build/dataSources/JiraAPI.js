@@ -31,14 +31,14 @@ let JiraAPI = class JiraAPI extends apollo_datasource_rest_1.RESTDataSource {
     }
     willSendRequest(req) {
         return __awaiter(this, void 0, void 0, function* () {
-            let accessToken = this.redis.get(this.context.user.id);
+            let accessToken = yield this.redis.get(this.context.user.id);
             if (accessToken) {
                 req.headers.set("Authorization", "Bearer " + accessToken);
             }
             else {
                 console.log("refreshing access token...");
                 yield this.context.dataSources.jiraAuth.refreshAccessToken(this.context.user.refreshToken);
-                accessToken = this.redis.get(this.context.user.id);
+                accessToken = yield this.redis.get(this.context.user.id);
                 req.headers.set("Authorization", "Bearer " + accessToken);
             }
         });
@@ -51,42 +51,42 @@ let JiraAPI = class JiraAPI extends apollo_datasource_rest_1.RESTDataSource {
     getProjects(cloudId, page, pageSize) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield this.get(`ex/jira/${cloudId}/rest/api/3/project/search?startAt=${page * pageSize}&maxResults=${pageSize}`);
-            return response.values.map(project => ({
+            return response.values.map((project) => ({
                 self: project.self,
                 id: project.id,
                 key: project.key,
                 name: project.name,
-                avatarUrls: Object.keys(project.avatarUrls).map(avatarResolution => ({
+                avatarUrls: Object.keys(project.avatarUrls).map((avatarResolution) => ({
                     resolution: avatarResolution,
-                    url: project.avatarUrls[avatarResolution]
-                }))
+                    url: project.avatarUrls[avatarResolution],
+                })),
             }));
         });
     }
     getIssues(cloudId, projectKey, page, pageSize) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield this.get(`ex/jira/${cloudId}/rest/api/3/search?jql=project=${projectKey}&fields=summary&startAt=${page * pageSize}&maxResults=${pageSize}`);
-            return response.issues.map(issue => ({
+            return response.issues.map((issue) => ({
                 self: issue.self,
                 id: issue.id,
                 key: issue.key,
-                summary: issue.fields.summary
+                summary: issue.fields.summary,
             }));
         });
     }
     getWorklogs(cloudId, issueKey, userId, page, pageSize) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield this.get(`ex/jira/${cloudId}/rest/api/3/issue/${issueKey}/worklog`);
-            const worklogs = response.worklogs.map(worklog => {
+            const worklogs = response.worklogs.map((worklog) => {
                 if (userId === worklog.author.accountId)
                     return {
                         self: worklog.self,
                         id: worklog.id,
                         timeSpentSeconds: worklog.timeSpentSeconds,
-                        started: new Date(worklog.started)
+                        started: new Date(worklog.started),
                     };
             });
-            return worklogs.slice(page * pageSize, (page * pageSize) + pageSize);
+            return worklogs.slice(page * pageSize, page * pageSize + pageSize);
         });
     }
     getUserId(cloudId) {

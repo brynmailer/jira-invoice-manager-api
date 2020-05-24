@@ -9,16 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const typeorm_1 = require("typeorm");
-const entities_1 = require("../entities");
-exports.LogAction = ({ context, info }, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const logRespository = typeorm_1.getRepository(entities_1.Log);
-    const log = logRespository.create({
-        ip: context.req.ip,
-        userAgent: context.req.headers["user-agent"],
-        timestamp: new Date().toString(),
-        action: info.fieldName,
+const graphql_1 = require("graphql");
+const utils_1 = require("../utils");
+let schema;
+exports.gCall = ({ source, variableValues, contextValue, }) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!schema)
+        schema = yield utils_1.createSchema();
+    return graphql_1.graphql({
+        schema,
+        source,
+        variableValues,
+        contextValue,
     });
-    yield logRespository.save(log);
-    return next();
 });

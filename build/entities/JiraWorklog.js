@@ -13,7 +13,7 @@ const type_graphql_1 = require("type-graphql");
 let JiraWorklog = class JiraWorklog {
 };
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.ID),
+    type_graphql_1.Field((type) => type_graphql_1.ID),
     __metadata("design:type", Number)
 ], JiraWorklog.prototype, "id", void 0);
 __decorate([
@@ -21,7 +21,7 @@ __decorate([
     __metadata("design:type", String)
 ], JiraWorklog.prototype, "self", void 0);
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.Int),
+    type_graphql_1.Field((type) => type_graphql_1.Int),
     __metadata("design:type", Number)
 ], JiraWorklog.prototype, "timeSpentSeconds", void 0);
 __decorate([

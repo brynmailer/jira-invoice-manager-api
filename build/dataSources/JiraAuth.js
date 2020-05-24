@@ -36,12 +36,12 @@ let JiraAuth = class JiraAuth extends apollo_datasource_rest_1.RESTDataSource {
     refreshAccessToken(refreshToken) {
         return __awaiter(this, void 0, void 0, function* () {
             const access = yield this.post("/", {
-                "grant_type": "refresh_token",
-                "client_id": this.clientId,
-                "client_secret": this.clientSecret,
-                "refresh_token": refreshToken
+                grant_type: "refresh_token",
+                client_id: this.clientId,
+                client_secret: this.clientSecret,
+                refresh_token: refreshToken,
             });
-            this.redis.set(this.context.user.id, access.access_token, "EX", access.expires_in);
+            yield this.redis.set(this.context.user.id, access.access_token, "EX", access.expires_in);
             return access;
         });
     }
@@ -50,13 +50,13 @@ let JiraAuth = class JiraAuth extends apollo_datasource_rest_1.RESTDataSource {
             if (decodeURIComponent(callbackState) !== userState)
                 throw new apollo_server_express_1.ForbiddenError("Invalid state");
             const access = yield this.post("/", {
-                "grant_type": "authorization_code",
-                "client_id": this.clientId,
-                "client_secret": this.clientSecret,
-                "code": code,
-                "redirect_uri": this.callbackUrl
+                grant_type: "authorization_code",
+                client_id: this.clientId,
+                client_secret: this.clientSecret,
+                code: code,
+                redirect_uri: this.callbackUrl,
             });
-            this.redis.set(this.context.user.id, access.access_token, "EX", access.expires_in);
+            yield this.redis.set(this.context.user.id, access.access_token, "EX", access.expires_in);
             return access;
         });
     }

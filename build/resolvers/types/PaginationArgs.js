@@ -14,14 +14,14 @@ const class_validator_1 = require("class-validator");
 let PaginationArgs = class PaginationArgs {
 };
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.Int, { defaultValue: 0 }),
+    type_graphql_1.Field((type) => type_graphql_1.Int, { defaultValue: 0 }),
     class_validator_1.IsNumber({ allowInfinity: false, allowNaN: false }),
     class_validator_1.IsInt(),
     class_validator_1.Min(0),
     __metadata("design:type", Number)
 ], PaginationArgs.prototype, "page", void 0);
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.Int, { defaultValue: 50 }),
+    type_graphql_1.Field((type) => type_graphql_1.Int, { defaultValue: 50 }),
     class_validator_1.IsNumber({ allowInfinity: false, allowNaN: false }),
     class_validator_1.IsInt(),
     class_validator_1.Min(1),

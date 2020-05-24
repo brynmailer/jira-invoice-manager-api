@@ -2,8 +2,6 @@ import { AuthChecker } from "type-graphql";
 
 import { Context } from "../types";
 
-export const authChecker: AuthChecker<Context> = (
-  { context: { req } }
-) => {
+export const authChecker: AuthChecker<Context> = ({ context: { req } }) => {
   return !!req.session.userId;
 };

@@ -37,13 +37,13 @@ __decorate([
     __metadata("design:type", String)
 ], InvoiceInput.prototype, "billTo", void 0);
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.Float),
+    type_graphql_1.Field((type) => type_graphql_1.Float),
     class_validator_1.IsNumber(),
     class_validator_1.IsPositive(),
     __metadata("design:type", Number)
 ], InvoiceInput.prototype, "ratePerHour", void 0);
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.Float),
+    type_graphql_1.Field((type) => type_graphql_1.Float),
     class_validator_1.IsNumber(),
     class_validator_1.IsPositive(),
     __metadata("design:type", Number)
@@ -54,7 +54,7 @@ __decorate([
     __metadata("design:type", String)
 ], InvoiceInput.prototype, "due", void 0);
 __decorate([
-    type_graphql_1.Field(type => [String]),
+    type_graphql_1.Field((type) => [String]),
     __metadata("design:type", Array)
 ], InvoiceInput.prototype, "itemUrls", void 0);
 InvoiceInput = __decorate([

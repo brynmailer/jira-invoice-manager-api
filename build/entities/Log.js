@@ -14,7 +14,7 @@ const typeorm_1 = require("typeorm");
 let Log = class Log {
 };
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.ID),
+    type_graphql_1.Field((type) => type_graphql_1.ID),
     typeorm_1.PrimaryGeneratedColumn("uuid"),
     __metadata("design:type", String)
 ], Log.prototype, "id", void 0);
@@ -22,7 +22,7 @@ __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({
         type: "varchar",
-        length: 255
+        length: 255,
     }),
     __metadata("design:type", String)
 ], Log.prototype, "ip", void 0);
@@ -30,7 +30,7 @@ __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({
         type: "varchar",
-        length: 255
+        length: 255,
     }),
     __metadata("design:type", String)
 ], Log.prototype, "userAgent", void 0);
@@ -43,7 +43,7 @@ __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({
         type: "varchar",
-        length: 255
+        length: 255,
     }),
     __metadata("design:type", String)
 ], Log.prototype, "action", void 0);

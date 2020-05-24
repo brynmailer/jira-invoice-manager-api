@@ -15,7 +15,7 @@ const Invoice_1 = require("./Invoice");
 let InvoiceItem = class InvoiceItem {
 };
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.ID),
+    type_graphql_1.Field((type) => type_graphql_1.ID),
     typeorm_1.PrimaryGeneratedColumn("uuid"),
     __metadata("design:type", String)
 ], InvoiceItem.prototype, "id", void 0);
@@ -23,7 +23,7 @@ __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({
         type: "varchar",
-        length: 40
+        length: 40,
     }),
     __metadata("design:type", String)
 ], InvoiceItem.prototype, "jiraId", void 0);
@@ -31,12 +31,12 @@ __decorate([
     type_graphql_1.Field(),
     typeorm_1.Column({
         type: "varchar",
-        length: 40
+        length: 40,
     }),
     __metadata("design:type", String)
 ], InvoiceItem.prototype, "issueId", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => Invoice_1.Invoice, invoice => invoice.items),
+    typeorm_1.ManyToOne((type) => Invoice_1.Invoice, (invoice) => invoice.items),
     __metadata("design:type", Invoice_1.Invoice)
 ], InvoiceItem.prototype, "invoice", void 0);
 InvoiceItem = __decorate([

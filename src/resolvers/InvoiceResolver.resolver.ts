@@ -1,4 +1,13 @@
-import { Resolver, Authorized, UseMiddleware, Query, Mutation, Args, Arg, Ctx } from "type-graphql";
+import {
+  Resolver,
+  Authorized,
+  UseMiddleware,
+  Query,
+  Mutation,
+  Args,
+  Arg,
+  Ctx,
+} from "type-graphql";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { Inject } from "typedi";
@@ -11,7 +20,6 @@ import { LogAction } from "../middleware";
 
 @Resolver()
 export class InvoiceResolver {
-
   @InjectRepository(Invoice)
   private readonly invoiceRepository: Repository<Invoice>;
 
@@ -25,7 +33,7 @@ export class InvoiceResolver {
   // having the same number as the deleted one.
   @Authorized()
   @UseMiddleware(LogAction)
-  @Mutation(returns => Invoice)
+  @Mutation((returns) => Invoice)
   async createInvoice(
     @Arg("invoice") invoiceInput: InvoiceInput,
     @Ctx() ctx: Context
@@ -33,13 +41,14 @@ export class InvoiceResolver {
     const invoice = this.invoiceRepository.create({
       ...invoiceInput,
       user: ctx.user,
-      number: ctx.user.invoices.length > 0 ? ctx.user.invoices[ctx.user.invoices.length - 1].number + 1 : 1,
-      items: invoiceInput.itemUrls.map(itemUrl => (
-        {
-          jiraId: itemUrl.split("/")[itemUrl.split("/").length - 1],
-          issueId: itemUrl.split("/")[itemUrl.split("/").length - 3]
-        }
-      ))
+      number:
+        ctx.user.invoices.length > 0
+          ? ctx.user.invoices[ctx.user.invoices.length - 1].number + 1
+          : 1,
+      items: invoiceInput.itemUrls.map((itemUrl) => ({
+        jiraId: itemUrl.split("/")[itemUrl.split("/").length - 1],
+        issueId: itemUrl.split("/")[itemUrl.split("/").length - 3],
+      })),
     });
 
     return await this.invoiceRepository.save(invoice);
@@ -50,7 +59,7 @@ export class InvoiceResolver {
   // whilst also preserving the id of the invoice.
   @Authorized()
   @UseMiddleware(LogAction)
-  @Mutation(returns => Invoice)
+  @Mutation((returns) => Invoice)
   async updateInvoice(
     @Arg("id") invoiceId: string,
     @Arg("invoice") invoiceInput: InvoiceInput,
@@ -64,15 +73,12 @@ export class InvoiceResolver {
       ...invoiceInput,
       user: ctx.user,
       number,
-      items: invoiceInput.itemUrls.map(itemUrl => (
-        {
-          jiraId: itemUrl.split("/")[itemUrl.split("/").length - 1],
-          issueId: itemUrl.split("/")[itemUrl.split("/").length - 3]
-        }
-      ))
+      items: invoiceInput.itemUrls.map((itemUrl) => ({
+        jiraId: itemUrl.split("/")[itemUrl.split("/").length - 1],
+        issueId: itemUrl.split("/")[itemUrl.split("/").length - 3],
+      })),
     });
 
     return await this.invoiceRepository.save(invoice);
   }
-
 }

@@ -5,9 +5,7 @@ import { PaginationArgs } from "./PaginationArgs";
 
 @ArgsType()
 export class GetProjectsArgs extends PaginationArgs {
-
-  @Field(type => ID)
+  @Field((type) => ID)
   @IsString()
   cloudId: string;
-
 }

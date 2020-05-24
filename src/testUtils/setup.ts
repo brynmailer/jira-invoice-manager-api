@@ -24,8 +24,8 @@ export const setup = async (drop: boolean = false) => {
     password: "administrator",
     database: "jira-invoice-manager-test",
     type: "mysql",
-    entities: [ User, Invoice, InvoiceItem, Log ],
+    entities: [User, Invoice, InvoiceItem, Log],
     synchronize: drop,
-    dropSchema: drop
+    dropSchema: drop,
   });
-}
+};
