@@ -44,7 +44,15 @@ export class UserResolver {
       password: await bcrypt.hash(userInput.password, this.saltRounds),
     });
 
-    return await this.userRepository.save(user);
+    const savedUser = await this.userRepository.save(user);
+
+    ctx.req.session.userId = savedUser.id;
+    ctx.req.session.userState = await bcrypt.hash(
+      ctx.req.sessionID,
+      this.saltRounds
+    );
+
+    return savedUser;
   }
 
   @UseMiddleware(LogAction)
