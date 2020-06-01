@@ -24,7 +24,6 @@ export class JiraAPI extends RESTDataSource {
     if (accessToken) {
       req.headers.set("Authorization", "Bearer " + accessToken);
     } else {
-      console.log("refreshing access token...");
       await this.context.dataSources.jiraAuth.refreshAccessToken(
         this.context.user.refreshToken
       );
