@@ -72,9 +72,8 @@ const main = async () => {
         if (req.session.userId) {
           return {
             req,
-            user: await userRepository.findOne({
+            user: await userRepository.findOne(req.session.userId, {
               relations: ["invoices", "invoices.items"],
-              where: { user: { id: req.session.userId } },
             }),
           };
         }

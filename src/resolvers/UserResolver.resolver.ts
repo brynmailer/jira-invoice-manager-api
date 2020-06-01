@@ -61,7 +61,7 @@ export class UserResolver {
     @Args() { email, password }: LoginArgs,
     @Ctx() ctx: Context
   ): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { email } });
+    const user = await this.userRepository.findOne({ email });
 
     if (!user) throw new Error("Incorrect email or password.");
 
