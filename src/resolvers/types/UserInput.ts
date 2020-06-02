@@ -23,6 +23,5 @@ export class UserInput implements Partial<User> {
   @Field()
   @Length(3, 255)
   @IsString()
-  @IsEmail()
   email: string;
 }
