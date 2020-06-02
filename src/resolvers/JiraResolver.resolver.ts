@@ -10,7 +10,6 @@ import {
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { Inject } from "typedi";
-import * as bcrypt from "bcrypt";
 
 import {
   User,
@@ -31,9 +30,6 @@ import { LogAction } from "../middleware";
 
 @Resolver()
 export class JiraResolver {
-  @Inject("SALT_ROUNDS")
-  private readonly saltRounds: string;
-
   @Inject("CLIENT_ID")
   private readonly clientId: string;
 
@@ -46,7 +42,7 @@ export class JiraResolver {
   @Authorized()
   @UseMiddleware(LogAction)
   @Query((returns) => String)
-  async getAuthUrl(@Ctx() ctx: Context): Promise<String> {
+  async authUrl(@Ctx() ctx: Context): Promise<String> {
     return `
       https://auth.atlassian.com/authorize?
       audience=api.atlassian.com&
@@ -84,14 +80,14 @@ export class JiraResolver {
   @Authorized()
   @UseMiddleware(LogAction)
   @Query((returns) => [JiraResource])
-  async getAccessibleResources(@Ctx() ctx: Context): Promise<JiraResource[]> {
+  async accessibleResources(@Ctx() ctx: Context): Promise<JiraResource[]> {
     return ctx.dataSources.jiraAPI.getAccessibleResources();
   }
 
   @Authorized()
   @UseMiddleware(LogAction)
   @Query((returns) => [JiraProject])
-  async getProjects(
+  async projects(
     @Args() { cloudId, page, pageSize }: GetProjectsArgs,
     @Ctx() ctx: Context
   ): Promise<JiraProject[]> {
@@ -101,7 +97,7 @@ export class JiraResolver {
   @Authorized()
   @UseMiddleware(LogAction)
   @Query((returns) => [JiraIssue])
-  async getIssues(
+  async issues(
     @Args() { cloudId, projectKey, page, pageSize }: GetIssuesArgs,
     @Ctx() ctx: Context
   ): Promise<JiraIssue[]> {
@@ -116,7 +112,7 @@ export class JiraResolver {
   @Authorized()
   @UseMiddleware(LogAction)
   @Query((returns) => [JiraWorklog])
-  async getWorklogs(
+  async worklogs(
     @Args() { cloudId, issueKey, page, pageSize }: GetWorklogsArgs,
     @Ctx() ctx: Context
   ): Promise<JiraWorklog[]> {
