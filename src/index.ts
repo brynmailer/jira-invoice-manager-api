@@ -27,7 +27,7 @@ Container.set(
   "CLIENT_SECRET",
   "jdht9YEXnt7WLybCjNJyjcRAbflUSE9hVrI4GfCPF8h_sldmUKcYwR-lPlgq0em4"
 );
-Container.set("CALLBACK_URL", "http://localhost:3000");
+Container.set("CALLBACK_URL", "http://localhost:3000/exchange-code");
 Container.set("REDIS_CLIENT", new Redis());
 
 // DB Config
