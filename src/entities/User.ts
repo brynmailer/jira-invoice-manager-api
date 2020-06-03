@@ -46,6 +46,13 @@ export class User {
   })
   email: string;
 
+  @Field()
+  @Column({
+    type: "varchar",
+    length: 255,
+  })
+  role: string;
+
   @Field((type) => [Invoice], { nullable: true })
   @OneToMany((type) => Invoice, (invoice) => invoice.user)
   invoices: Invoice[];

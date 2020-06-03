@@ -42,6 +42,7 @@ export class UserResolver {
     const user = this.userRepository.create({
       ...userInput,
       password: await bcrypt.hash(userInput.password, this.saltRounds),
+      role: "BASIC",
     });
 
     const savedUser = await this.userRepository.save(user);
