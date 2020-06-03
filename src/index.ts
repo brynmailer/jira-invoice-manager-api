@@ -75,11 +75,12 @@ const main = async () => {
             user: await userRepository.findOne(req.session.userId, {
               relations: ["invoices", "invoices.items"],
             }),
+            rateLimited: false,
           };
         }
 
         // Otherwise only return the express Request object.
-        return { req };
+        return { req, rateLimited: false };
       },
       playground: true,
     });

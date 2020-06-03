@@ -8,6 +8,10 @@ export const RateLimitDaily: MiddlewareFn<Context> = async (
   { context },
   next: NextFn
 ) => {
+  // Check if the middleware has already run on this request
+  if (context.rateLimited) return next();
+  context.rateLimited = true;
+
   // Get the instance of the Redis client created in src/index.ts
   const redis: Redis = Container.get("REDIS_CLIENT");
 

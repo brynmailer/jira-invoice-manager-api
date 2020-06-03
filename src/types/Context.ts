@@ -7,4 +7,5 @@ export interface Context {
   req: Request;
   dataSources: DataSources;
   user?: User;
+  rateLimited: boolean;
 }
