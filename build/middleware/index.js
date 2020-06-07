@@ -5,4 +5,3 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./LogAction"));
 __export(require("./RateLimitDaily"));
-__export(require("./RateLimitPerSecond"));

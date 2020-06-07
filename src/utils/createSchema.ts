@@ -2,7 +2,7 @@ import { Container } from "typedi";
 import { buildSchema } from "type-graphql";
 
 import { authChecker } from "../auth";
-import { RateLimitDaily, RateLimitPerSecond } from "../middleware";
+import { RateLimitDaily } from "../middleware";
 import { InvoiceResolver, JiraResolver, UserResolver } from "../resolvers";
 
 export const createSchema = async () => {
@@ -10,6 +10,6 @@ export const createSchema = async () => {
     resolvers: [InvoiceResolver, JiraResolver, UserResolver],
     authChecker,
     container: Container,
-    globalMiddlewares: [RateLimitDaily, RateLimitPerSecond],
+    globalMiddlewares: [RateLimitDaily],
   });
 };

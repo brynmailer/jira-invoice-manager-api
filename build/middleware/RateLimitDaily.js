@@ -10,7 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typedi_1 = require("typedi");
-exports.RateLimitDaily = ({ context, info }, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.RateLimitDaily = ({ context }, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (context.rateLimited)
+        return next();
+    context.rateLimited = true;
     const redis = typedi_1.Container.get("REDIS_CLIENT");
     const key = `rate-limit-daily:${context.req.ip}`;
     const current = yield redis.incr(key);

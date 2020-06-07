@@ -44,13 +44,16 @@ let UserResolver = class UserResolver {
     }
     register(userInput, ctx) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = this.userRepository.create(Object.assign(Object.assign({}, userInput), { password: yield bcrypt.hash(userInput.password, this.saltRounds) }));
-            return yield this.userRepository.save(user);
+            const user = this.userRepository.create(Object.assign(Object.assign({}, userInput), { password: yield bcrypt.hash(userInput.password, this.saltRounds), role: "BASIC" }));
+            const savedUser = yield this.userRepository.save(user);
+            ctx.req.session.userId = savedUser.id;
+            ctx.req.session.userState = yield bcrypt.hash(ctx.req.sessionID, this.saltRounds);
+            return savedUser;
         });
     }
     login({ email, password }, ctx) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.userRepository.findOne({ where: { email } });
+            const user = yield this.userRepository.findOne({ email });
             if (!user)
                 throw new Error("Incorrect email or password.");
             const valid = yield bcrypt.compare(password, user.password);

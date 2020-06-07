@@ -29,7 +29,7 @@ const entities_1 = require("../entities");
 const types_1 = require("./types");
 const middleware_1 = require("../middleware");
 let JiraResolver = class JiraResolver {
-    getAuthUrl(ctx) {
+    authUrl(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             return `
       https://auth.atlassian.com/authorize?
@@ -53,32 +53,28 @@ let JiraResolver = class JiraResolver {
             };
         });
     }
-    getAccessibleResources(ctx) {
+    accessibleResources(ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             return ctx.dataSources.jiraAPI.getAccessibleResources();
         });
     }
-    getProjects({ cloudId, page, pageSize }, ctx) {
+    projects({ cloudId, page, pageSize }, ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             return ctx.dataSources.jiraAPI.getProjects(cloudId, page, pageSize);
         });
     }
-    getIssues({ cloudId, projectKey, page, pageSize }, ctx) {
+    issues({ cloudId, projectKey, page, pageSize }, ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             return ctx.dataSources.jiraAPI.getIssues(cloudId, projectKey, page, pageSize);
         });
     }
-    getWorklogs({ cloudId, issueKey, page, pageSize }, ctx) {
+    worklogs({ cloudId, issueKey, page, pageSize }, ctx) {
         return __awaiter(this, void 0, void 0, function* () {
             const jiraUserId = yield ctx.dataSources.jiraAPI.getUserId(cloudId);
             return ctx.dataSources.jiraAPI.getWorklogs(cloudId, issueKey, jiraUserId, page, pageSize);
         });
     }
 };
-__decorate([
-    typedi_1.Inject("SALT_ROUNDS"),
-    __metadata("design:type", String)
-], JiraResolver.prototype, "saltRounds", void 0);
 __decorate([
     typedi_1.Inject("CLIENT_ID"),
     __metadata("design:type", String)
@@ -99,7 +95,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], JiraResolver.prototype, "getAuthUrl", null);
+], JiraResolver.prototype, "authUrl", null);
 __decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
@@ -118,7 +114,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], JiraResolver.prototype, "getAccessibleResources", null);
+], JiraResolver.prototype, "accessibleResources", null);
 __decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
@@ -128,7 +124,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [types_1.GetProjectsArgs, Object]),
     __metadata("design:returntype", Promise)
-], JiraResolver.prototype, "getProjects", null);
+], JiraResolver.prototype, "projects", null);
 __decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
@@ -138,7 +134,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [types_1.GetIssuesArgs, Object]),
     __metadata("design:returntype", Promise)
-], JiraResolver.prototype, "getIssues", null);
+], JiraResolver.prototype, "issues", null);
 __decorate([
     type_graphql_1.Authorized(),
     type_graphql_1.UseMiddleware(middleware_1.LogAction),
@@ -148,7 +144,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [types_1.GetWorklogsArgs, Object]),
     __metadata("design:returntype", Promise)
-], JiraResolver.prototype, "getWorklogs", null);
+], JiraResolver.prototype, "worklogs", null);
 JiraResolver = __decorate([
     type_graphql_1.Resolver()
 ], JiraResolver);

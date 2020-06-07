@@ -35,7 +35,6 @@ __decorate([
     type_graphql_1.Field(),
     class_validator_1.Length(3, 255),
     class_validator_1.IsString(),
-    class_validator_1.IsEmail(),
     __metadata("design:type", String)
 ], UserInput.prototype, "email", void 0);
 UserInput = __decorate([

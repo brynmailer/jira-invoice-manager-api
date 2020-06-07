@@ -1,9 +1,5 @@
 # Jira Invoice Mananger API
 
-## High Priority TODOs
-
-* Limit web requests to 1 per second
-
 ## Continuous Improvement TODOs
 
 * Come up with a better way of handling invoice number generation
@@ -41,7 +37,7 @@ Start Redis with `redis-server`, it is now possible to use `redis-cli` to intera
 Ensure you have npm installed on your system and a stable internet connection. Then run `npm install` in the root of the project. Open up `src/index.ts` in your text editor. Scroll down to the `DB_CONFIG` object. Edit the `port`, `username`, `password` and `database` properties to match the details of the previously created database and user.
 Exit your text editor and run `npm run build` in the root of the project. You can now run `npm run start` to start the server.
 
-## Interacting with the API
+## Interacting with the API using GraphiQL
 
 Once the server has successfully started, copy the URL listed in your console into your browser to access the GraphQL Playground. In order for the authentication process to function correctly, you will need to navigate to the GraphQL Playground settings by clicking the cog in the top right of the screen. In the settings, change the value of `request.credentials` to `include`. You can now successfully run GraphQL queries against the API.
 

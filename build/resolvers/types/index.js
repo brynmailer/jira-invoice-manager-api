@@ -10,3 +10,4 @@ __export(require("./GetProjectsArgs"));
 __export(require("./GetIssuesArgs"));
 __export(require("./GetWorklogsArgs"));
 __export(require("./ExchangeAuthCodeArgs"));
+__export(require("./PaginationArgs"));

@@ -52,6 +52,7 @@ describe("User actions", () => {
         },
       },
     });
+    console.log(result);
 
     expect(result).toMatchObject({
       data: {
@@ -60,6 +61,41 @@ describe("User actions", () => {
           lastName: "test",
           email: "test@test.com",
           invoices: null,
+        },
+      },
+    });
+  });
+
+  test("Logout", async () => {
+    const result = await gCall({
+      source: `
+        mutation Logout {
+          logout {
+            message
+          }
+        }
+      `,
+      contextValue: {
+        req: {
+          ip: "127.0.0.1",
+          headers: {
+            "user-agent": "test user-agent field",
+          },
+          session: {
+            userId: "test",
+            destroy: (func) => {
+              func();
+            },
+          },
+          sessionID: "test",
+        },
+      },
+    });
+
+    expect(result).toMatchObject({
+      data: {
+        logout: {
+          message: "Successfully logged out.",
         },
       },
     });

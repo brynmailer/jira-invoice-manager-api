@@ -43,6 +43,7 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
+    type_graphql_1.Field((type) => String, { nullable: true }),
     typeorm_1.Column({
         type: "varchar",
         length: 60,
@@ -59,6 +60,14 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    typeorm_1.Column({
+        type: "varchar",
+        length: 255,
+    }),
+    __metadata("design:type", String)
+], User.prototype, "role", void 0);
 __decorate([
     type_graphql_1.Field((type) => [Invoice_1.Invoice], { nullable: true }),
     typeorm_1.OneToMany((type) => Invoice_1.Invoice, (invoice) => invoice.user),

@@ -26,7 +26,7 @@ const utils_1 = require("./utils");
 typedi_1.Container.set("SALT_ROUNDS", 10);
 typedi_1.Container.set("CLIENT_ID", "2Rms1ySSrAYQ4oLjbtfbdfYX2gIrMmX4");
 typedi_1.Container.set("CLIENT_SECRET", "jdht9YEXnt7WLybCjNJyjcRAbflUSE9hVrI4GfCPF8h_sldmUKcYwR-lPlgq0em4");
-typedi_1.Container.set("CALLBACK_URL", "http://localhost:3000");
+typedi_1.Container.set("CALLBACK_URL", "http://localhost:3000/exchange-code");
 typedi_1.Container.set("REDIS_CLIENT", new ioredis_1.default());
 const DB_CONFIG = {
     host: "localhost",
@@ -53,13 +53,13 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
                 if (req.session.userId) {
                     return {
                         req,
-                        user: yield userRepository.findOne({
+                        user: yield userRepository.findOne(req.session.userId, {
                             relations: ["invoices", "invoices.items"],
-                            where: { user: { id: req.session.userId } },
                         }),
+                        rateLimited: false,
                     };
                 }
-                return { req };
+                return { req, rateLimited: false };
             }),
             playground: true,
         });

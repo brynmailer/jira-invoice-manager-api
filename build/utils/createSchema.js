@@ -19,6 +19,6 @@ exports.createSchema = () => __awaiter(void 0, void 0, void 0, function* () {
         resolvers: [resolvers_1.InvoiceResolver, resolvers_1.JiraResolver, resolvers_1.UserResolver],
         authChecker: auth_1.authChecker,
         container: typedi_1.Container,
-        globalMiddlewares: [middleware_1.RateLimitDaily, middleware_1.RateLimitPerSecond],
+        globalMiddlewares: [middleware_1.RateLimitDaily],
     });
 });

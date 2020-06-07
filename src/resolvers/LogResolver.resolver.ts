@@ -1,7 +1,6 @@
 import {
   Resolver,
   Authorized,
-  UseMiddleware,
   Query,
   Mutation,
   Args,

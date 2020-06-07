@@ -36,7 +36,6 @@ let JiraAPI = class JiraAPI extends apollo_datasource_rest_1.RESTDataSource {
                 req.headers.set("Authorization", "Bearer " + accessToken);
             }
             else {
-                console.log("refreshing access token...");
                 yield this.context.dataSources.jiraAuth.refreshAccessToken(this.context.user.refreshToken);
                 accessToken = yield this.redis.get(this.context.user.id);
                 req.headers.set("Authorization", "Bearer " + accessToken);
