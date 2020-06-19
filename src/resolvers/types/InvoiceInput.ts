@@ -8,6 +8,7 @@ import {
 } from "class-validator";
 
 import { Invoice } from "../../entities";
+import { InvoiceItemInput } from "./InvoiceItemInput";
 
 @InputType()
 export class InvoiceInput implements Partial<Invoice> {
@@ -44,6 +45,6 @@ export class InvoiceInput implements Partial<Invoice> {
   @IsDateString()
   due: string;
 
-  @Field((type) => [String])
-  itemUrls: string[];
+  @Field((type) => [InvoiceItemInput])
+  itemInputs: InvoiceItemInput[];
 }

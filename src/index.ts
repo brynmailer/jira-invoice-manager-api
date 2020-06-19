@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import dotenv from "dotenv";
 import { ApolloServer } from "apollo-server-express";
 import { Container } from "typedi";
 import {
@@ -19,6 +20,8 @@ const session = require("express-session");
 import { User, Invoice, InvoiceItem, Log } from "./entities";
 import { JiraAuth, JiraAPI } from "./dataSources";
 import { createSchema } from "./utils";
+
+dotenv.config();
 
 // Setting some global variables in the IoC container
 Container.set("SALT_ROUNDS", 10);
@@ -90,7 +93,7 @@ const main = async () => {
     const MySQLStore = MySQLSession(session);
 
     const corsOptions: CorsOptions = {
-      origin: "http://localhost:3000",
+      origin: process.env.CLIENT_URI,
       credentials: true,
     };
 

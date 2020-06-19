@@ -11,18 +11,16 @@ export class InvoiceItem {
   readonly id: string;
 
   @Field()
-  @Column({
-    type: "varchar",
-    length: 40,
-  })
-  jiraId: string;
+  @Column()
+  cloudId: string;
 
   @Field()
-  @Column({
-    type: "varchar",
-    length: 40,
-  })
-  issueId: string;
+  @Column()
+  worklogId: string;
+
+  @Field()
+  @Column()
+  issueKey: string;
 
   @ManyToOne((type) => Invoice, (invoice) => invoice.items)
   invoice: Invoice;

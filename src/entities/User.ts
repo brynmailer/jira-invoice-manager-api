@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from "type-graphql";
+import { ObjectType, Field, ID, Int } from "type-graphql";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 
 import { Invoice } from "./Invoice";
@@ -52,6 +52,10 @@ export class User {
     length: 255,
   })
   role: string;
+
+  @Field((type) => Int)
+  @Column({ type: "int", default: 0 })
+  createdInvoices: number;
 
   @Field((type) => [Invoice], { nullable: true })
   @OneToMany((type) => Invoice, (invoice) => invoice.user)

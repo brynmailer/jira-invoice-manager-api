@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
+const dotenv_1 = __importDefault(require("dotenv"));
 const apollo_server_express_1 = require("apollo-server-express");
 const typedi_1 = require("typedi");
 const typeorm_1 = require("typeorm");
@@ -23,6 +24,7 @@ const session = require("express-session");
 const entities_1 = require("./entities");
 const dataSources_1 = require("./dataSources");
 const utils_1 = require("./utils");
+dotenv_1.default.config();
 typedi_1.Container.set("SALT_ROUNDS", 10);
 typedi_1.Container.set("CLIENT_ID", "2Rms1ySSrAYQ4oLjbtfbdfYX2gIrMmX4");
 typedi_1.Container.set("CLIENT_SECRET", "jdht9YEXnt7WLybCjNJyjcRAbflUSE9hVrI4GfCPF8h_sldmUKcYwR-lPlgq0em4");
@@ -66,7 +68,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         const app = express_1.default();
         const MySQLStore = express_mysql_session_1.default(session);
         const corsOptions = {
-            origin: "http://localhost:3000",
+            origin: process.env.CLIENT_URI,
             credentials: true,
         };
         app.use(session({

@@ -35,6 +35,7 @@ Start Redis with `redis-server`, it is now possible to use `redis-cli` to intera
 ### Configuration
 
 Ensure you have npm installed on your system and a stable internet connection. Then run `npm install` in the root of the project. Open up `src/index.ts` in your text editor. Scroll down to the `DB_CONFIG` object. Edit the `port`, `username`, `password` and `database` properties to match the details of the previously created database and user.
+Follow the setup instructions in the jira-invoice-manager-client repo. Create a .env file in the project root. Create a CLIENT_URI key that has a value equal to the URL that the client application is accessible at. For example http://localhost/jira-inv-manager or http://localhost:3000
 Exit your text editor and run `npm run build` in the root of the project. You can now run `npm run start` to start the server.
 
 ## Interacting with the API using GraphiQL

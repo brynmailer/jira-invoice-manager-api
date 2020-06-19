@@ -10,8 +10,6 @@ import {
 } from "type-graphql";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { Inject } from "typedi";
-import * as bcrypt from "bcrypt";
 
 import { User, Invoice, InvoiceItem } from "../entities";
 import { InvoiceInput } from "./types";
@@ -26,11 +24,9 @@ export class InvoiceResolver {
   @InjectRepository(InvoiceItem)
   private readonly invoiceItemRepository: Repository<InvoiceItem>;
 
-  // NOTE: must find a way to mimic MySQLs AutoIncrement
-  // but on a per user basis for the invoice.number field.
-  // currently deleting the last invoice belonging to a user
-  // then creating a new invoice will result in the new invoice
-  // having the same number as the deleted one.
+  @InjectRepository(User)
+  private readonly userRepository: Repository<User>;
+
   @Authorized()
   @UseMiddleware(LogAction)
   @Mutation((returns) => Invoice)
@@ -41,19 +37,24 @@ export class InvoiceResolver {
     const invoice = this.invoiceRepository.create({
       ...invoiceInput,
       user: ctx.user,
-      number:
-        ctx.user.invoices.length > 0
-          ? ctx.user.invoices[ctx.user.invoices.length - 1].number + 1
-          : 1,
-      items: invoiceInput.itemUrls.map((itemUrl) => ({
-        jiraId: itemUrl.split("/")[itemUrl.split("/").length - 1],
-        issueId: itemUrl.split("/")[itemUrl.split("/").length - 3],
-      })),
+      number: ctx.user.createdInvoices + 1,
+      items: invoiceInput.itemInputs.map(
+        ({ cloudId, worklogId, issueKey }) => ({
+          cloudId,
+          worklogId,
+          issueKey,
+        })
+      ),
+    });
+
+    this.userRepository.update(ctx.user.id, {
+      createdInvoices: ctx.user.createdInvoices + 1,
     });
 
     return await this.invoiceRepository.save(invoice);
   }
 
+  /*
   // NOTE: must find a way to update an invoices items and remove
   // all items that are no longer part of the invoice
   // whilst also preserving the id of the invoice.
@@ -81,4 +82,5 @@ export class InvoiceResolver {
 
     return await this.invoiceRepository.save(invoice);
   }
+  */
 }

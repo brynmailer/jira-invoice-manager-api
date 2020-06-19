@@ -1,5 +1,6 @@
 export * from "./UserInput";
 export * from "./InvoiceInput";
+export * from "./InvoiceItemInput";
 export * from "./LoginArgs";
 export * from "./GetProjectsArgs";
 export * from "./GetIssuesArgs";
