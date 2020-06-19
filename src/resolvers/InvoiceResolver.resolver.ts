@@ -59,8 +59,12 @@ export class InvoiceResolver {
     @Arg("id") invoiceId: string,
     @Ctx() ctx: Context
   ): Promise<Message> {
-    console.log(await this.invoiceRepository.delete(invoiceId));
-    return { message: `Successfully deleted invoice with id ${invoiceId}` };
+    const result = await this.invoiceRepository.delete(invoiceId);
+    const message =
+      result.affected === 1
+        ? `Successfully deleted invoice with id ${invoiceId}`
+        : `Failed to delete invoice with id ${invoiceId}`;
+    return { message };
   }
 
   /*
