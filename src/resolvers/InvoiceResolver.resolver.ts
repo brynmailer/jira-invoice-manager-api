@@ -2,16 +2,14 @@ import {
   Resolver,
   Authorized,
   UseMiddleware,
-  Query,
   Mutation,
-  Args,
   Arg,
   Ctx,
 } from "type-graphql";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
 
-import { User, Invoice, InvoiceItem } from "../entities";
+import { User, Invoice, InvoiceItem, Message } from "../entities";
 import { InvoiceInput } from "./types";
 import { Context } from "../types";
 import { LogAction } from "../middleware";
@@ -52,6 +50,17 @@ export class InvoiceResolver {
     });
 
     return await this.invoiceRepository.save(invoice);
+  }
+
+  @Authorized()
+  @UseMiddleware(LogAction)
+  @Mutation((returns) => Message)
+  async deleteInvoice(
+    @Arg("id") invoiceId: string,
+    @Ctx() ctx: Context
+  ): Promise<Message> {
+    console.log(await this.invoiceRepository.delete(invoiceId));
+    return { message: `Successfully deleted invoice with id ${invoiceId}` };
   }
 
   /*

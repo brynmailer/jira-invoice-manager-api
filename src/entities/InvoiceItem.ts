@@ -22,6 +22,8 @@ export class InvoiceItem {
   @Column()
   issueKey: string;
 
-  @ManyToOne((type) => Invoice, (invoice) => invoice.items)
+  @ManyToOne((type) => Invoice, (invoice) => invoice.items, {
+    onDelete: "CASCADE",
+  })
   invoice: Invoice;
 }
