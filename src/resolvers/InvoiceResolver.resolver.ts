@@ -2,6 +2,7 @@ import {
   Resolver,
   Authorized,
   UseMiddleware,
+  Query,
   Mutation,
   Arg,
   Ctx,
@@ -25,6 +26,16 @@ export class InvoiceResolver {
 
   @InjectRepository(User)
   private readonly userRepository: Repository<User>;
+
+  @Authorized()
+  @UseMiddleware(LogAction)
+  @Query((returns) => Invoice, { nullable: true })
+  async invoice(
+    @Arg("id") invoiceId: string,
+    @Ctx() ctx: Context
+  ): Promise<Invoice | null> {
+    return ctx.user.invoices.filter((invoice) => invoice.id === invoiceId)[0];
+  }
 
   @Authorized()
   @UseMiddleware(LogAction)
