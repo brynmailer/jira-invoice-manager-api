@@ -5,5 +5,6 @@ export * from "./LoginArgs";
 export * from "./GetProjectsArgs";
 export * from "./GetIssuesArgs";
 export * from "./GetWorklogsArgs";
+export * from "./GetWorklogArgs";
 export * from "./ExchangeAuthCodeArgs";
 export * from "./PaginationArgs";

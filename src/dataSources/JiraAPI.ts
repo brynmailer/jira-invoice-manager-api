@@ -110,6 +110,22 @@ export class JiraAPI extends RESTDataSource {
     return worklogs.slice(page * pageSize, page * pageSize + pageSize);
   }
 
+  async getWorklog(
+    cloudId: string,
+    issueKey: string,
+    worklogId: string
+  ): Promise<JiraWorklog | null> {
+    const response = await this.get(
+      `ex/jira/${cloudId}/rest/api/3/issue/${issueKey}/worklog/${worklogId}`
+    );
+    return {
+      self: response.self,
+      id: response.id,
+      timeSpentSeconds: response.timeSpentSeconds,
+      started: new Date(response.started),
+    } as JiraWorklog;
+  }
+
   async getUserId(cloudId: string): Promise<string> {
     const response = await this.get(`ex/jira/${cloudId}/rest/api/3/myself`);
     return response.accountId;

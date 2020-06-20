@@ -23,6 +23,7 @@ import {
   GetProjectsArgs,
   GetIssuesArgs,
   GetWorklogsArgs,
+  GetWorklogArgs,
   ExchangeAuthCodeArgs,
 } from "./types";
 import { Context } from "../types";
@@ -124,5 +125,15 @@ export class JiraResolver {
       page,
       pageSize
     );
+  }
+
+  @Authorized()
+  @UseMiddleware(LogAction)
+  @Query((returns) => JiraWorklog)
+  async worklog(
+    @Args() { cloudId, issueKey, worklogId }: GetWorklogArgs,
+    @Ctx() ctx: Context
+  ): Promise<JiraWorklog | null> {
+    return ctx.dataSources.jiraAPI.getWorklog(cloudId, issueKey, worklogId);
   }
 }
