@@ -8,6 +8,7 @@ import {
 } from "type-graphql";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
+import _ from "lodash";
 
 import { User, Invoice, InvoiceItem, Message } from "../entities";
 import { InvoiceInput } from "./types";
@@ -55,10 +56,7 @@ export class InvoiceResolver {
   @Authorized()
   @UseMiddleware(LogAction)
   @Mutation((returns) => Message)
-  async deleteInvoice(
-    @Arg("id") invoiceId: string,
-    @Ctx() ctx: Context
-  ): Promise<Message> {
+  async deleteInvoice(@Arg("id") invoiceId: string): Promise<Message> {
     const result = await this.invoiceRepository.delete(invoiceId);
     const message =
       result.affected === 1
@@ -67,33 +65,45 @@ export class InvoiceResolver {
     return { message };
   }
 
-  /*
-  // NOTE: must find a way to update an invoices items and remove
-  // all items that are no longer part of the invoice
-  // whilst also preserving the id of the invoice.
   @Authorized()
   @UseMiddleware(LogAction)
   @Mutation((returns) => Invoice)
   async updateInvoice(
     @Arg("id") invoiceId: string,
-    @Arg("invoice") invoiceInput: InvoiceInput,
+    @Arg("invoice") { itemInputs, ...rest }: InvoiceInput,
     @Ctx() ctx: Context
   ): Promise<Invoice> {
-    const { number } = ctx.user.invoices[ctx.user.invoices.length - 1];
-
-    await this.invoiceRepository.delete(invoiceId);
-
-    const invoice = this.invoiceRepository.create({
-      ...invoiceInput,
-      user: ctx.user,
-      number,
-      items: invoiceInput.itemUrls.map((itemUrl) => ({
-        jiraId: itemUrl.split("/")[itemUrl.split("/").length - 1],
-        issueId: itemUrl.split("/")[itemUrl.split("/").length - 3],
-      })),
+    const invoice = await this.invoiceRepository.findOne(invoiceId, {
+      relations: ["items"],
     });
 
-    return await this.invoiceRepository.save(invoice);
+    const items = invoice.items.map(({ cloudId, issueKey, worklogId }) => ({
+      cloudId,
+      issueKey,
+      worklogId,
+    }));
+
+    itemInputs.forEach((itemInput) => {
+      if (!items.some((item) => _.isEqual(item, itemInput))) {
+        this.invoiceItemRepository.insert({
+          ...itemInput,
+          invoice,
+        });
+      }
+    });
+
+    items.forEach((item, index) => {
+      if (!itemInputs.some((itemInput) => _.isEqual(itemInput, item))) {
+        this.invoiceItemRepository.delete(invoice.items[index].id);
+      }
+    });
+
+    await this.invoiceRepository.update(invoiceId, {
+      ...rest,
+    });
+
+    return await this.invoiceRepository.findOne(invoiceId, {
+      relations: ["items"],
+    });
   }
-  */
 }
